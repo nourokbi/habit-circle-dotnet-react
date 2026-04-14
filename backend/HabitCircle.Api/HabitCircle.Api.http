@@ -1,0 +1,212 @@
+# HabitCircle manual API tests (NO variables)
+# ------------------------------------------------------------
+# How to use:
+# 1) Start API: dotnet run
+# 2) If your API port is not 5212, replace it in ALL URLs below.
+# 3) Run requests in order.
+# 4) After login, COPY the "token" from the response JSON and paste it into the Authorization header placeholders.
+# 5) After creating a habit/circle, COPY the returned ids/codes and paste them into the next URLs/bodies.
+
+#############################################################
+# AUTH (User 1)
+#############################################################
+
+### 1) Register User 1
+POST http://localhost:5212/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "ahmed",
+  "email": "ahmed@test.com",
+  "password": "password123"
+}
+
+### 2) Login User 1  (COPY token from response)
+POST http://localhost:5212/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "ahmed@test.com",
+  "password": "password123"
+}
+
+#############################################################
+# HABITS (User 1)
+#############################################################
+
+### 3) Create a habit (User 1)  (COPY habitId from response: "id")
+# Note: FrequencyType is an enum in the API. If you get a JSON enum error, use numbers:
+# Daily=0, Weekly=1, Monthly=2, Yearly=3
+POST http://localhost:5212/api/habit
+Authorization: Bearer <PASTE_USER1_TOKEN_HERE>
+Content-Type: application/json
+
+{
+  "title": "Read 10 pages",
+  "description": "Daily reading",
+  "frequencyType": 0
+}
+
+### 4) Get all my habits (User 1)  (check: currentStreak, totalLogs, loggedToday)
+GET http://localhost:5212/api/habit
+Authorization: Bearer <PASTE_USER1_TOKEN_HERE>
+
+### 5) Get one habit by id (User 1)
+GET http://localhost:5212/api/habit/<PASTE_HABIT_ID_HERE>
+Authorization: Bearer <PASTE_USER1_TOKEN_HERE>
+
+### 6) Log habit for today (User 1)
+POST http://localhost:5212/api/habit/<PASTE_HABIT_ID_HERE>/log
+Authorization: Bearer <PASTE_USER1_TOKEN_HERE>
+Content-Type: application/json
+
+{
+  "note": "Did it today"
+}
+
+### 7) Negative test: Log again today (User 1) — should be 400 "Already logged today."
+POST http://localhost:5212/api/habit/<PASTE_HABIT_ID_HERE>/log
+Authorization: Bearer <PASTE_USER1_TOKEN_HERE>
+Content-Type: application/json
+
+{
+  "note": "Second log should fail"
+}
+
+### 8) Get full log history (User 1)
+GET http://localhost:5212/api/habit/<PASTE_HABIT_ID_HERE>/logs
+Authorization: Bearer <PASTE_USER1_TOKEN_HERE>
+
+#############################################################
+# CIRCLES (User 1 creates circle, then shares habit)
+#############################################################
+
+### 9) Create a circle (User 1)  (COPY circleId: "id" and inviteCode: "inviteCode")
+POST http://localhost:5212/api/circle
+Authorization: Bearer <PASTE_USER1_TOKEN_HERE>
+Content-Type: application/json
+
+{
+  "name": "Book Club",
+  "description": "Circle created for testing"
+}
+
+### 9b) Get circle by id (User 1) (CircleController does not currently have "my circles" endpoint)
+GET http://localhost:5212/api/circle/<PASTE_CIRCLE_ID_HERE>
+Authorization: Bearer <PASTE_USER1_TOKEN_HERE>
+
+### 10) Share habit into the circle (User 1)
+POST http://localhost:5212/api/circle/<PASTE_CIRCLE_ID_HERE>/habits
+Authorization: Bearer <PASTE_USER1_TOKEN_HERE>
+Content-Type: application/json
+
+{
+  "habitId": "<PASTE_HABIT_ID_HERE>"
+}
+
+### 11) Get circle habits (User 1)
+GET http://localhost:5212/api/circle/<PASTE_CIRCLE_ID_HERE>/habits
+Authorization: Bearer <PASTE_USER1_TOKEN_HERE>
+
+#############################################################
+# HABIT UPDATE + ASSIGN TO CIRCLES (User 1)
+#############################################################
+
+### 11b) Update habit title/description (User 1)
+PUT http://localhost:5212/api/habit/<PASTE_HABIT_ID_HERE>
+Authorization: Bearer <PASTE_USER1_TOKEN_HERE>
+Content-Type: application/json
+
+{
+  "title": "Read 20 pages",
+  "description": "Updated description"
+}
+
+### 11c) Assign habit to a circle using PUT (replaces all circles)
+PUT http://localhost:5212/api/habit/<PASTE_HABIT_ID_HERE>
+Authorization: Bearer <PASTE_USER1_TOKEN_HERE>
+Content-Type: application/json
+
+{
+  "CircleIds": [
+    "<PASTE_CIRCLE_ID_HERE>"
+  ]
+}
+
+### 11d) Verify habit now shows SharedInCircles
+GET http://localhost:5212/api/habit/<PASTE_HABIT_ID_HERE>
+Authorization: Bearer <PASTE_USER1_TOKEN_HERE>
+
+### 11e) Remove habit from ALL circles (send empty list)
+PUT http://localhost:5212/api/habit/<PASTE_HABIT_ID_HERE>
+Authorization: Bearer <PASTE_USER1_TOKEN_HERE>
+Content-Type: application/json
+
+{
+  "CircleIds": []
+}
+
+### 11f) Verify circle habits is empty again
+GET http://localhost:5212/api/circle/<PASTE_CIRCLE_ID_HERE>/habits
+Authorization: Bearer <PASTE_USER1_TOKEN_HERE>
+
+#############################################################
+# AUTH (User 2) + JOIN CIRCLE + VIEW
+#############################################################
+
+### 12) Register User 2
+POST http://localhost:5212/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "mona",
+  "email": "mona@test.com",
+  "password": "password123"
+}
+
+### 13) Login User 2 (COPY token)
+POST http://localhost:5212/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "mona@test.com",
+  "password": "password123"
+}
+
+### 14) Join circle by invite code (User 2)
+POST http://localhost:5212/api/circle/join/<PASTE_INVITE_CODE_HERE>
+Authorization: Bearer <PASTE_USER2_TOKEN_HERE>
+
+### 15) Get circle by id (User 2) — should succeed only after joining
+GET http://localhost:5212/api/circle/<PASTE_CIRCLE_ID_HERE>
+Authorization: Bearer <PASTE_USER2_TOKEN_HERE>
+
+### 16) Circle members view shared habits (User 2)
+# This should include the shared habit and show logs for the last 7 days as "logsThisWeek".
+GET http://localhost:5212/api/circle/<PASTE_CIRCLE_ID_HERE>/habits
+Authorization: Bearer <PASTE_USER2_TOKEN_HERE>
+
+### 17) Negative test: Join with invalid invite code (User 2) — should be 400
+POST http://localhost:5212/api/circle/join/INVALID1
+Authorization: Bearer <PASTE_USER2_TOKEN_HERE>
+
+### 17b) Negative test: Get habit that belongs to another user — should be 404
+# Put here a habitId created by User 1, but use User 2 token.
+GET http://localhost:5212/api/habit/<PASTE_USER1_HABIT_ID_HERE>
+Authorization: Bearer <PASTE_USER2_TOKEN_HERE>
+
+### 17c) Frequency types (no auth required)
+GET http://localhost:5212/api/habit/frequency-types
+
+#############################################################
+# CLEANUP (optional)
+#############################################################
+
+### 18) Delete habit (User 1)
+DELETE http://localhost:5212/api/habit/<PASTE_HABIT_ID_HERE>
+Authorization: Bearer <PASTE_USER1_TOKEN_HERE>
+
+### 18b) Verify deleted habit is gone (User 1) — should be 404
+GET http://localhost:5212/api/habit/<PASTE_HABIT_ID_HERE>
+Authorization: Bearer <PASTE_USER1_TOKEN_HERE>
+
