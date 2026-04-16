@@ -1,0 +1,171 @@
+% Resume in Latex
+% Updated for: Nour Eldeen Mahmoud Okbi (Full-Stack .NET Focus)
+
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\hypersetup{
+  colorlinks=true,
+  urlcolor=blue,
+  linkcolor=black
+}
+
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+\newcommand{\resumeItem}[1]{\item\small{#1}}
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+  \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+    \textbf{#1} & #2 \\
+    \textit{\small#3} & \textit{\small #4} \\
+  \end{tabular*}\vspace{-5pt}
+}
+\newcommand{\resumeProjectHeading}[2]{
+  \item
+  \textbf{#1} \hfill {\href{#2}{\underline{#2}}}
+}
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+\renewcommand{\labelitemii}{$\circ$}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=*]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+\begin{document}
+
+%----------HEADING-----------------
+\begin{center}
+    \textbf{\Huge \scshape Nour Eldeen Mahmoud Okbi} \\ \vspace{6pt}
+    \textit{\large Full-Stack Developer (.NET \& React)} \\
+    \vspace{6pt}
+    \href{mailto:nourokbi1@gmail.com}{nourokbi1@gmail.com}  $|$ 
+    +20 111 716 1123 $|$
+    \href{https://www.linkedin.com/in/nourokbi}{linkedin.com/in/nourokbi} $|$ 
+    \href{https://github.com/nourokbi}{github.com/nourokbi} \\
+    Cairo, Egypt
+\end{center}
+
+%-----------SUMMARY-----------------
+\section{Summary}
+Full-stack developer with a strong background in frontend development using React and TypeScript, and growing experience in backend development with \textbf{ASP.NET Core} and \textbf{Entity Framework Core}.\newline I enjoy building complete web applications, from designing responsive user interfaces to developing APIs and working with databases. I focus on writing clean, maintainable code and understanding how different parts of a system work together. Currently, I’m continuing to improve my backend skills and deepen my knowledge of scalable application design.
+
+%-----------EXPERIENCE-----------------
+\section{Experience}
+\resumeSubHeadingListStart
+
+\resumeSubheading
+  {GIS Trainee Intern @ ITI}{Jul 2025 -- Dec 2025}
+  {Information Technology Institute (ITI)}{Giza, Egypt}
+  \resumeItemListStart
+    \resumeItem{Developed responsive web applications using \textbf{React} and \textbf{TypeScript}.}
+    \resumeItem{Built interactive and data-driven UI components using \textbf{Leaflet.js} and \textbf{ArcGIS JS SDK}.}
+    \resumeItem{Integrated REST APIs to deliver dynamic and real-time content.}
+    \resumeItem{Converted UI designs into scalable and reusable component-based architectures.}
+    \resumeItem{Collaborated in debugging, testing, and delivering production-ready features.}
+  \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------SKILLS-----------------
+\section{Skills}
+\resumeSubHeadingListStart
+
+\resumeItem{\textbf{Backend:} ASP.NET Core Web API, Entity Framework Core, JWT Authentication, RESTful APIs, Node.js, Express.js}
+
+\resumeItem{\textbf{Databases:} PostgreSQL (Neon), SQLite, SQL Server (Basics), Supabase}
+
+\resumeItem{\textbf{Frontend:} HTML5, CSS3, JavaScript (ES6+), TypeScript, Responsive Design}
+
+\resumeItem{\textbf{Frameworks \& Libraries:} React, React Router, Axios, Lucide, Next.js, Tailwind CSS, HeroUI, Chart.js}
+
+\resumeItem{\textbf{Programming Languages:} C\#, JavaScript, TypeScript, Python, SQL}
+
+\resumeItem{\textbf{Core Concepts:} OOP, Dependency Injection, API Design, Authentication/Authorization, CRUD Operations, Client-Server Architecture}
+
+\resumeItem{\textbf{Tools \& Workflow:} Git, GitHub, Postman, Swagger/OpenAPI, Vercel, npm}
+
+\resumeItem{\textbf{GIS (Bonus):} Leaflet.js, ArcGIS JS SDK, ArcGIS Pro, QGIS}
+
+\resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------------
+\section{Projects}
+\resumeSubHeadingListStart
+
+\resumeProjectHeading
+{\textbf{Habit Circle} $|$ \textit{ASP.NET Core, EF Core, PostgreSQL (Neon), JWT, React}}{}
+\resumeItemListStart
+  \resumeItem{Built a habit-tracking app that helps people track habits and encourage each other through circles to build good and new habits.}
+  \resumeItem{Built an \textbf{ASP.NET Core Web API} with \textbf{JWT authentication}, using \textbf{EF Core} + \textbf{PostgreSQL (Neon)} for persistence.}
+  \resumeItem{Implemented join-by-code circles and members-only habit sharing, enforcing authorization rules server-side.}
+  \resumeItem{Built a \textbf{React} frontend using \textbf{Context API} for auth state, \textbf{React Router} for routing, \textbf{Axios} for API calls, and \textbf{Lucide} icons for UI.}
+  \resumeItem{Designed daily/weekly/monthly habits and check-in logging, with endpoints for completion history.}
+\resumeItemListEnd
+
+\resumeProjectHeading
+{\textbf{ArcadeShelf} $|$ \textit{ASP.NET Core, EF Core, React, TypeScript}}{}
+\resumeItemListStart
+  \resumeItem{Built a full-stack application to manage a collection of games using \textbf{ASP.NET Core Minimal APIs} and \textbf{React}.}
+  \resumeItem{Designed RESTful APIs implementing CRUD operations with \textbf{Entity Framework Core} and \textbf{SQLite}, with clean separation of concerns (API, data access, and models).}
+  \resumeItem{Integrated frontend and backend using environment-based API configuration, and implemented UI features such as table/card views, multi-select deletion, and persistent preferences.}
+\resumeItemListEnd
+
+\resumeProjectHeading
+{\textbf{Floods Insights} $|$ \textit{React, JavaScript, Chart.js, ArcGIS}}
+{https://floods-insights.vercel.app/}
+\resumeItemListStart
+  \resumeItem{Developed a data-driven web application with interactive maps and dynamic dashboards.}
+  \resumeItem{Integrated multiple APIs to visualize real-time and historical geospatial data.}
+  \resumeItem{Implemented advanced UI features, including map controls, search, and export functionality.}
+\resumeItemListEnd
+
+\resumeProjectHeading
+{\textbf{United Nations Climate Adaptation Platform} $|$ \textit{React, Leaflet, HeroUI}}{}
+\resumeItemListStart
+  \resumeItem{Built an interactive dashboard with geospatial data layers and a responsive UI.}
+  \resumeItem{Focused on usability, accessibility, and scalable frontend architecture.}
+  \resumeItem{Implemented reusable map components and UI state for working with geospatial layers.}
+\resumeItemListEnd
+
+\resumeProjectHeading
+{\textbf{IP Address Tracker} $|$ \textit{React, Leaflet}}
+{https://ip-tracker-two-theta.vercel.app/}
+\resumeItemListStart
+  \resumeItem{Developed a real-time IP tracking application with map visualization and API integration.}
+  \resumeItem{Built reusable components and implemented persistent UI preferences.}
+  \resumeItem{Improved reliability with input validation and error handling around geolocation API responses.}
+\resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------EDUCATION-----------------
+\section{Education}
+\resumeSubHeadingListStart
+\resumeSubheading
+  {Faculty of Computers and Artificial Intelligence, Cairo University}{Cairo, Egypt}
+  {Bachelor’s Degree in Computer Science}{2020 -- 2024}
+\resumeItemListStart
+  \resumeItem{Studied software engineering, database systems, and system design.}
+  \resumeItem{Completed coursework in machine learning, artificial intelligence, and data modeling.}
+  \resumeItem{Built projects across web, mobile, and data-driven applications.}
+\resumeItemListEnd
+\resumeSubHeadingListEnd
+
+%-----------CERTIFICATES-----------------
+\section{Certificates}
+\resumeSubHeadingListStart
+  \resumeItem{ICC Certificate in GIS – Information Technology Institute (ITI)}
+  \resumeItem{ESRI Certificates – ArcGIS JavaScript SDK \& ArcGIS Python API}
+  \resumeItem{Advanced React Certificate – Scrimba}
+  \resumeItem{Front-End Development Workshop – Google DSC}
+\resumeSubHeadingListEnd
+
+\end{document}

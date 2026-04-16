@@ -51,11 +51,103 @@ public class CircleService
         var circle = await _db.Circles
             .Include(c => c.Members)
             .ThenInclude(m => m.User)
+            .Include(c => c.CircleHabits)
+            .AsSplitQuery()
             .FirstOrDefaultAsync(c => c.Id == circleId);
 
         if (circle == null) return null;
 
         return MapToResponse(circle);
+    }
+
+    public async Task<CirclePageResponse?> GetPageAsync(Guid circleId, Guid requestingUserId)
+    {
+        // Only members can see a circle
+        var isMember = await _db.CircleMembers
+            .AnyAsync(cm => cm.CircleId == circleId && cm.UserId == requestingUserId);
+
+        if (!isMember) return null;
+
+        var circle = await _db.Circles
+            .AsNoTracking()
+            .Include(c => c.Members)
+                .ThenInclude(m => m.User)
+            .Include(c => c.CircleHabits)
+                .ThenInclude(ch => ch.Habit)
+                    .ThenInclude(h => h.User)
+            .Include(c => c.CircleHabits)
+                .ThenInclude(ch => ch.Habit)
+                    .ThenInclude(h => h.Logs)
+            .AsSplitQuery()
+            .FirstOrDefaultAsync(c => c.Id == circleId);
+
+        if (circle == null) return null;
+
+        var now = DateTime.UtcNow;
+        var today = now.Date;
+        var weekAgo = now.AddDays(-7);
+
+        var sharedHabits = circle.CircleHabits
+            .Select(ch => ch.Habit)
+            .Where(h => h != null)
+            .ToList()!;
+
+        var totalLogsThisWeek = sharedHabits.Sum(h => h.Logs.Count(l => l.LoggedAt >= weekAgo));
+
+        var longestHabit = sharedHabits
+            .Select(h => new
+            {
+                Habit = h,
+                Streak = HabitHelpers.CalculateStreak(h.Logs.Select(l => l.LoggedAt))
+            })
+            .OrderByDescending(x => x.Streak)
+            .FirstOrDefault();
+
+        var response = new CirclePageResponse
+        {
+            Id = circle.Id,
+            Name = circle.Name,
+            Description = circle.Description,
+            MemberCount = circle.Members.Count,
+            SharedHabitsCount = circle.CircleHabits.Count,
+            Stats = new CirclePageStats
+            {
+                TotalLogsThisWeek = totalLogsThisWeek,
+                LongestStreak = longestHabit?.Streak ?? 0,
+                LongestStreakUsername = longestHabit?.Habit.User.Username,
+                LongestStreakHabitTitle = longestHabit?.Habit.Title
+            },
+            Members = circle.Members
+                .OrderBy(m => m.JoinedAt)
+                .Select(m => new CircleMemberHabitsResponse
+                {
+                    UserId = m.UserId,
+                    Username = m.User.Username,
+                    Role = m.Role,
+                    JoinedAt = m.JoinedAt,
+                    Habits = sharedHabits
+                        .Where(h => h.UserId == m.UserId)
+                        .OrderBy(h => h.Title)
+                        .Select(h =>
+                        {
+                            var logDates = h.Logs.Select(l => l.LoggedAt);
+                            return new CircleMemberHabitResponse
+                            {
+                                HabitId = h.Id,
+                                Title = h.Title,
+                                Description = h.Description,
+                                FrequencyType = h.FrequencyType.ToString(),
+                                CurrentStreak = HabitHelpers.CalculateStreak(logDates),
+                                DaysLogged = logDates.Select(d => d.Date).Distinct().Count(),
+                                LoggedToday = logDates.Any(d => d.Date == today)
+                            };
+                        })
+                        .ToList()
+                })
+                .ToList()
+        };
+
+        return response;
     }
 
     public async Task<(bool success, string message, CircleResponse? circle)> JoinAsync(string inviteCode, Guid userId)
@@ -155,11 +247,40 @@ public class CircleService
         var circles = await _db.Circles
             .Include(c => c.Members)
                 .ThenInclude(m => m.User)
+            .Include(c => c.CircleHabits)
+            .AsSplitQuery()
             .Where(c => c.Members.Any(m => m.UserId == userId))
             .ToListAsync();
 
         return circles.Select(MapToResponse).ToList();
     }
+
+    public async Task<(bool success, string message)> DeleteAsync(Guid circleId, Guid requestingUserId)
+    {
+        var circle = await _db.Circles.FirstOrDefaultAsync(c => c.Id == circleId);
+        if (circle == null)
+            return (false, "Circle not found.");
+
+        var isAdmin = await _db.CircleMembers.AnyAsync(cm =>
+            cm.CircleId == circleId &&
+            cm.UserId == requestingUserId &&
+            cm.Role == "admin");
+
+        if (!isAdmin)
+            return (false, "Only circle admins can delete this circle.");
+
+        var circleHabits = _db.CircleHabits.Where(ch => ch.CircleId == circleId);
+        _db.CircleHabits.RemoveRange(circleHabits);
+
+        var members = _db.CircleMembers.Where(cm => cm.CircleId == circleId);
+        _db.CircleMembers.RemoveRange(members);
+
+        _db.Circles.Remove(circle);
+        await _db.SaveChangesAsync();
+
+        return (true, "Circle deleted.");
+    }
+
     //Helper method to convert Circle entity to CircleResponse DTO
     private static CircleResponse MapToResponse(Circle circle) => new()
     {
@@ -168,6 +289,7 @@ public class CircleService
         Description = circle.Description,
         InviteCode = circle.InviteCode,
         CreatedAt = circle.CreatedAt,
+        CircleHabits = circle.CircleHabits.Select(ch => ch.HabitId).ToList(),
         Members = circle.Members.Select(m => new MemberResponse
         {
             UserId = m.UserId,

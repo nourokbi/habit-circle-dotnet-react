@@ -1,0 +1,96 @@
+/* Page tweaks */
+.nfPage {
+  background: radial-gradient(
+    circle at 20% 20%,
+    var(--gold-glow),
+    transparent 40%
+  );
+}
+
+/* Card */
+.nfCard {
+  text-align: center;
+  animation: nfFade 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Header */
+.nfHeader {
+  margin-bottom: 20px;
+}
+
+/* 404 number */
+.nfCode {
+  font-size: 64px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: -0.04em;
+  text-shadow: 0 0 30px var(--gold-glow);
+  margin-bottom: 6px;
+}
+
+/* Title */
+.nfTitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Description */
+.nfText {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+/* Actions */
+.nfActions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Secondary button */
+.nfSecondaryBtn {
+  display: inline-block;
+  padding: 11px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-dim);
+  color: var(--text-secondary);
+  font-size: 13px;
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+}
+
+.nfSecondaryBtn:hover {
+  background: var(--bg-overlay);
+  border-color: var(--border-active);
+  color: var(--text-primary);
+}
+
+/* Animation */
+@keyframes nfFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .nfCode {
+    font-size: 52px;
+  }
+
+  .nfText {
+    font-size: 13px;
+  }
+}

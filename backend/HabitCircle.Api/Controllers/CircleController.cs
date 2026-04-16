@@ -37,6 +37,14 @@ public class CircleController : ControllerBase
         return Ok(circle);
     }
 
+    [HttpGet("{id}/page")]  // GET api/circle/{id}/page
+    public async Task<IActionResult> GetPage(Guid id)
+    {
+        var page = await _circleService.GetPageAsync(id, GetUserId());
+        if (page == null) return NotFound(new { message = "Circle not found or access denied." });
+        return Ok(page);
+    }
+
     [HttpPost("join/{inviteCode}")]  // POST api/circle/join/X4KP2A
     public async Task<IActionResult> Join(string inviteCode)
     {
@@ -64,5 +72,24 @@ public class CircleController : ControllerBase
     {
         var circles = await _circleService.GetMyCirclesAsync(GetUserId());
         return Ok(circles);
+    }
+
+    [HttpDelete("{id}")] // DELETE api/circle/{id}
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var (success, message) = await _circleService.DeleteAsync(id, GetUserId());
+
+        if (!success)
+        {
+            if (message == "Circle not found.")
+                return NotFound(new { message });
+
+            if (message.StartsWith("Only circle admins", StringComparison.Ordinal))
+                return StatusCode(403, new { message });
+
+            return BadRequest(new { message });
+        }
+
+        return Ok(new { message });
     }
 }

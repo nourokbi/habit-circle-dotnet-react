@@ -1,0 +1,228 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
+/* ── Light theme ── */
+[data-theme="light"] {
+  --gold: #a8863a;
+  --gold-dim: #8a6e2e;
+  --gold-hover: #c9a84c;
+  --gold-glow: rgba(168, 134, 58, 0.12);
+
+  --bg-base: #f5f2ec;
+  --bg-surface: #efebe2;
+  --bg-raised: #ffffff;
+  --bg-overlay: #e8e3d8;
+
+  --text-primary: #1c1a15;
+  --text-secondary: #6b6456;
+  --text-muted: #a09888;
+
+  --border-subtle: rgba(168, 134, 58, 0.12);
+  --border-dim: rgba(168, 134, 58, 0.25);
+  --border-active: rgba(168, 134, 58, 0.5);
+
+  --danger: #c0544a;
+  --success: #4a7a50;
+}
+
+[data-theme="dark"] {
+  --gold: #c9a84c;
+  --gold-dim: #a8863a;
+  --gold-muted: #7a6128;
+  --gold-glow: rgba(201, 168, 76, 0.15);
+  --gold-glow-strong: rgba(201, 168, 76, 0.25);
+
+  --bg-base: #0d0d0b;
+  --bg-surface: #141410;
+  --bg-raised: #1c1c17;
+  --bg-overlay: #232318;
+
+  --text-primary: #f0ebe0;
+  --text-secondary: #9a9486;
+  --text-muted: #5a564e;
+
+  --border-subtle: rgba(201, 168, 76, 0.1);
+  --border-dim: rgba(201, 168, 76, 0.2);
+  --border-active: rgba(201, 168, 76, 0.5);
+
+  --danger: #c0544a;
+  --success: #5a8a60;
+}
+:root {
+  --font-display: "Syne", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+
+  --navbar-height: 56px;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: var(--gold);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+a:hover {
+  color: var(--text-primary);
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+input,
+textarea,
+select {
+  font-family: var(--font-body);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-raised);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-muted);
+}
+
+::selection {
+  background: var(--gold-glow-strong);
+  color: var(--gold);
+}
+
+/* Mantine overrides */
+.hcPrimaryButton {
+  --button-bg: var(--gold);
+  --button-hover: var(--gold-hover, #d9b85a);
+  --button-color: var(--bg-base);
+  --button-hover-color: var(--bg-base);
+  --button-radius: var(--radius-md);
+  --button-bd: none;
+
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition:
+    transform var(--transition),
+    opacity var(--transition);
+}
+
+.hcPrimaryButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.hcPrimaryButton:active:not(:disabled) {
+  transform: translateY(0px);
+}
+
+.hcPrimaryButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.hcDangerButton {
+  --button-bg: var(--danger);
+  --button-hover: #d36056;
+  --button-color: #ffffff;
+  --button-hover-color: #ffffff;
+  --button-radius: var(--radius-md);
+  --button-bd: none;
+
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition:
+    transform var(--transition),
+    opacity var(--transition);
+}
+
+.hcDangerButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.hcDangerButton:active:not(:disabled) {
+  transform: translateY(0px);
+}
+
+.hcDangerButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.hcSecondaryButton {
+  --button-bg: transparent;
+  --button-hover: var(--bg-overlay);
+  --button-color: var(--text-primary);
+  --button-hover-color: var(--text-primary);
+  --button-radius: var(--radius-md);
+  --button-bd: 1px solid var(--border-dim);
+
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform var(--transition),
+    opacity var(--transition);
+}
+
+.hcSecondaryButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.hcSecondaryButton:active:not(:disabled) {
+  transform: translateY(0px);
+}
+
+.hcSecondaryButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@keyframes hcToastProgress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}

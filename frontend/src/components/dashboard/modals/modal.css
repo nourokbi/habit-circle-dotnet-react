@@ -1,0 +1,144 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modalCard {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(20, 20, 16, 0.9);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  backdrop-filter: blur(24px);
+  animation: cardIn 0.3s ease;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.modalHeader h3 {
+  font-family: var(--font-display);
+}
+
+.modalClose {
+  color: var(--text-muted);
+  border: none;
+  background: transparent;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+}
+
+.modalClose:hover {
+  background: var(--bg-overlay);
+  color: var(--text-primary);
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modalInput {
+  background: var(--bg-raised);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  color: var(--text-primary);
+}
+
+.modalMultiSelect {
+  min-height: 120px;
+}
+
+.modalHint {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.modalCircles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.circleChip {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-dim);
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.circleChip.active {
+  background: var(--gold);
+  color: #0d0d0b;
+}
+
+.modalActions {
+  display: flex;
+  gap: 10px;
+}
+
+.modalActions .submitBtn {
+  margin-top: 0;
+  width: auto;
+  flex: 1;
+}
+
+.modalSecondaryBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-dim);
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition),
+    opacity var(--transition);
+}
+
+.modalSecondaryBtn:hover:not(:disabled) {
+  background: var(--bg-overlay);
+  border-color: var(--border-active);
+  color: var(--text-primary);
+}
+
+.modalSecondaryBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.modalError {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-overlay);
+  color: var(--danger);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* HeroUI (Select/ListBox) spacing inside the modal */
+.modalCard .list-box-item {
+  padding-inline-start: calc(var(--spacing) * 4);
+}

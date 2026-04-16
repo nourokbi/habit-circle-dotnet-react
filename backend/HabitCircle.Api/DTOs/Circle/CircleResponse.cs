@@ -8,6 +8,9 @@ public class CircleResponse
   public string InviteCode { get; set; } = string.Empty;
   public DateTime CreatedAt { get; set; }
   public List<MemberResponse> Members { get; set; } = new();
+
+  // Used by the frontend to show "X habits shared"
+  public List<Guid> CircleHabits { get; set; } = new();
 }
 
 public class MemberResponse

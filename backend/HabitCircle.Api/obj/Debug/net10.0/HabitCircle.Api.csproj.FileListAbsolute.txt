@@ -130,3 +130,8 @@ E:\NourOkbi\Programming Journey\.Net\habit-circle-dotnet-react\backend\HabitCirc
 E:\NourOkbi\Programming Journey\.Net\habit-circle-dotnet-react\backend\HabitCircle.Api\obj\Debug\net10.0\HabitCircle.Api.genruntimeconfig.cache
 E:\NourOkbi\Programming Journey\.Net\habit-circle-dotnet-react\backend\HabitCircle.Api\obj\Debug\net10.0\ref\HabitCircle.Api.dll
 E:\NourOkbi\Programming Journey\.Net\habit-circle-dotnet-react\backend\HabitCircle.Api\bin\Debug\net10.0\Scalar.AspNetCore.dll
+E:\NourOkbi\Programming Journey\.Net\habit-circle-dotnet-react\backend\HabitCircle.Api\bin\Debug\net10.0\Google.Apis.dll
+E:\NourOkbi\Programming Journey\.Net\habit-circle-dotnet-react\backend\HabitCircle.Api\bin\Debug\net10.0\Google.Apis.Auth.dll
+E:\NourOkbi\Programming Journey\.Net\habit-circle-dotnet-react\backend\HabitCircle.Api\bin\Debug\net10.0\Google.Apis.Core.dll
+E:\NourOkbi\Programming Journey\.Net\habit-circle-dotnet-react\backend\HabitCircle.Api\bin\Debug\net10.0\System.Management.dll
+E:\NourOkbi\Programming Journey\.Net\habit-circle-dotnet-react\backend\HabitCircle.Api\bin\Debug\net10.0\runtimes\win\lib\net7.0\System.Management.dll

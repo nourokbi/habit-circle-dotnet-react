@@ -1,3 +1,4 @@
+using HabitCircle.Api.DTOs.Auth;
 using HabitCircle.DTOs.Auth;
 using HabitCircle.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,14 @@ public class AuthController : ControllerBase
         if (result == null)
             return Unauthorized(new { message = "Invalid email or password." });
 
+        return Ok(result);
+    }
+    [HttpPost("google")]  // POST api/auth/google
+    public async Task<IActionResult> GoogleLogin(GoogleLoginRequest request)
+    {
+        var result = await _authService.GoogleLoginAsync(request);
+        if (result == null)
+            return Unauthorized(new { message = "Invalid Google token." });
         return Ok(result);
     }
 }

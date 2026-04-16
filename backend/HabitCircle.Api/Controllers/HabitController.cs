@@ -88,4 +88,11 @@ public class HabitController : ControllerBase
     if (!success) return BadRequest(new { message });
     return Ok(habit);
   }
+  [HttpDelete("{id}/log/today")]  // DELETE api/habit/{id}/log/today
+  public async Task<IActionResult> DeleteTodayLog(Guid id)
+  {
+    var (success, message) = await _habitService.DeleteTodayLogAsync(id, GetUserId());
+    if (!success) return BadRequest(new { message });
+    return Ok(new { message });
+  }
 }

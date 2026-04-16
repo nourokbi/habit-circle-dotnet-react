@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HabitCircle.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c42c8fc2119aa5e1cee3b5c68a97adc600b3cd4c")]
 [assembly: System.Reflection.AssemblyProductAttribute("HabitCircle.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HabitCircle.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -55,6 +55,7 @@ public class HabitService
         .Include(h => h.Logs)
         .Include(h => h.CircleHabits)
             .ThenInclude(ch => ch.Circle)
+        .AsSplitQuery()
         .FirstAsync(h => h.Id == habit.Id);
 
     return (true, "Habit created.", MapToResponse(created, created.Logs.ToList()));
@@ -67,6 +68,7 @@ public class HabitService
         .Include(h => h.Logs)
         .Include(h => h.CircleHabits)
             .ThenInclude(ch => ch.Circle)
+        .AsSplitQuery()
         .ToListAsync();
 
     return habits.Select(h => MapToResponse(h, h.Logs.ToList())).ToList();
@@ -78,6 +80,7 @@ public class HabitService
         .Include(h => h.Logs)
         .Include(h => h.CircleHabits)
             .ThenInclude(ch => ch.Circle)
+        .AsSplitQuery()
         .FirstOrDefaultAsync(h => h.Id == habitId && h.UserId == userId);
 
     if (habit == null) return null;
@@ -138,6 +141,27 @@ public class HabitService
         })
         .ToListAsync();
   }
+  public async Task<(bool success, string message)> DeleteTodayLogAsync(Guid habitId, Guid userId)
+  {
+    // Make sure the habit belongs to this user
+    var habit = await _db.Habits
+        .FirstOrDefaultAsync(h => h.Id == habitId && h.UserId == userId);
+
+    if (habit == null)
+      return (false, "Habit not found.");
+
+    var today = DateTime.UtcNow.Date;
+
+    var log = await _db.HabitLogs
+        .FirstOrDefaultAsync(l => l.HabitId == habitId && l.LoggedAt.Date == today);
+
+    if (log == null)
+      return (false, "No log found for today.");
+
+    _db.HabitLogs.Remove(log);
+    await _db.SaveChangesAsync();
+    return (true, "Log removed.");
+  }
 
   public async Task<(bool success, string message)> DeleteAsync(Guid habitId, Guid userId)
   {
@@ -159,6 +183,7 @@ public class HabitService
         .Include(h => h.Logs)
         .Include(h => h.CircleHabits)
             .ThenInclude(ch => ch.Circle)
+        .AsSplitQuery()
         .FirstOrDefaultAsync(h => h.Id == habitId && h.UserId == userId);
 
     if (habit == null)
@@ -177,21 +202,32 @@ public class HabitService
     // Handle circle changes if CircleIds was sent
     if (request.CircleIds != null)
     {
-      // Remove all existing circle shares for this habit
-      var existing = await _db.CircleHabits
-          .Where(ch => ch.HabitId == habitId)
-          .ToListAsync();
-      _db.CircleHabits.RemoveRange(existing);
+      var requestedCircleIds = request.CircleIds.Distinct().ToList();
 
-      // Add the new ones, validating membership for each
-      foreach (var circleId in request.CircleIds)
+      // Validate membership for each requested circle first
+      foreach (var circleId in requestedCircleIds)
       {
         var isMember = await _db.CircleMembers
             .AnyAsync(cm => cm.CircleId == circleId && cm.UserId == userId);
 
         if (!isMember)
           return (false, $"You are not a member of circle {circleId}.", null);
+      }
 
+      var requestedSet = requestedCircleIds.ToHashSet();
+
+      // Remove shares that are no longer requested
+      var toRemove = habit.CircleHabits
+          .Where(ch => !requestedSet.Contains(ch.CircleId))
+          .ToList();
+      _db.CircleHabits.RemoveRange(toRemove);
+
+      // Add any missing shares
+      var existingSet = habit.CircleHabits.Select(ch => ch.CircleId).ToHashSet();
+      var toAdd = requestedCircleIds.Where(id => !existingSet.Contains(id));
+
+      foreach (var circleId in toAdd)
+      {
         _db.CircleHabits.Add(new CircleHabit
         {
           HabitId = habitId,
@@ -207,6 +243,7 @@ public class HabitService
         .Include(h => h.Logs)
         .Include(h => h.CircleHabits)
             .ThenInclude(ch => ch.Circle)
+        .AsSplitQuery()
         .FirstAsync(h => h.Id == habitId);
 
     return (true, "Habit updated.", MapToResponse(updated, updated.Logs.ToList()));
