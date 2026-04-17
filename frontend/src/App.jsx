@@ -12,6 +12,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Dashboard from "./pages/Dashboard";
 import CirclePage from "./pages/CirclePage";
+import SettingsPage from "./pages/SettingsPage";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import GuestRoute from "./components/routes/GuestRoute";
@@ -49,6 +50,7 @@ export default function App() {
                   <Route element={<ProtectedRoute />}>
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="circles/:id" element={<CirclePage />} />
+                    <Route path="settings" element={<SettingsPage />} />
                   </Route>
 
                   {/* Not found routes */}

@@ -6,19 +6,30 @@
   justify-content: center;
   padding: 24px 16px;
   position: relative;
+  background: var(--bg-base);
 }
 
 .card {
+  --auth-card-bg: var(--bg-surface);
+
   position: relative;
   z-index: 1;
   width: 100%;
   max-width: 400px;
-  background: rgba(20, 20, 16, 0.85);
+  background: var(--auth-card-bg);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
   padding: 40px 36px;
   backdrop-filter: blur(24px);
   animation: cardIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+[data-theme="dark"] .card {
+  --auth-card-bg: rgba(20, 20, 16, 0.85);
+}
+
+[data-theme="light"] .card {
+  --auth-card-bg: var(--bg-raised);
 }
 
 .cardTall {
@@ -251,7 +262,7 @@
 }
 .divider span {
   position: relative;
-  background: rgba(20, 20, 16, 0.9);
+  background: var(--auth-card-bg);
   padding: 0 12px;
   font-size: 12px;
   color: var(--text-muted);
