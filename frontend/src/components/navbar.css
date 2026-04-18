@@ -32,6 +32,15 @@
   text-transform: uppercase;
 }
 
+.navbar-logo-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.navbar-logo-text-short {
+  display: none;
+}
+
 .navbar-right {
   display: flex;
   align-items: center;
@@ -167,4 +176,23 @@
 .navbar-menu-item-signout:hover {
   color: var(--danger);
   background: rgba(192, 84, 74, 0.12);
+}
+
+@media (max-width: 520px) {
+  .navbar-logo-text-full {
+    display: none;
+  }
+
+  .navbar-logo-text-short {
+    display: inline;
+  }
+
+  .navbar-logo-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .navbar-username {
+    display: none;
+  }
 }

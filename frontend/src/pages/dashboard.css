@@ -529,10 +529,11 @@
   color: var(--success);
 }
 
-.circle-stats {
+.circle-card .circle-stats {
   font-size: 12px;
   color: var(--text-muted);
   display: flex;
+  margin-bottom: 10px;
   gap: 6px;
 }
 

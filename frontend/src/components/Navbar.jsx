@@ -47,11 +47,17 @@ export default function Navbar() {
   return (
     <div className="navbar-container">
       <nav className="navbar">
-        <Link to="/" className="navbar-logo">
-          <div className="navbar-logo">
-            <CircleDot size={20} strokeWidth={1.5} />
-            <span>habit circle</span>
-          </div>
+        <Link to="/" className="navbar-logo" aria-label="Habit Circle">
+          <CircleDot className="navbar-logo-icon" size={20} strokeWidth={1.5} />
+          <span className="navbar-logo-text navbar-logo-text-full">
+            habit circle
+          </span>
+          <span
+            className="navbar-logo-text navbar-logo-text-short"
+            aria-hidden="true"
+          >
+            H C
+          </span>
         </Link>
 
         <div className="navbar-right">

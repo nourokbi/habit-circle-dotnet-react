@@ -1,0 +1,18 @@
+.git
+.gitignore
+
+**/bin
+**/obj
+**/.vs
+**/.vscode
+
+frontend/node_modules
+frontend/dist
+
+**/*.user
+**/*.suo
+**/*.cache
+
+# optional: local env files
+**/.env
+**/.env.*

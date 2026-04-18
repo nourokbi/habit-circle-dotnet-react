@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 
 import api from "../api/axios";
 
-import "./CirclePage.css";
+import "./circlepage.css";
 
 function formatDate(iso) {
   if (!iso) return "";

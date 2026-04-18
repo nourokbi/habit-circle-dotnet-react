@@ -1,16 +1,58 @@
-# React + Vite
+# Frontend (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the React frontend for Habit Circle.
 
-Currently, two official plugins are available:
+## Tech
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React (Vite)
+- React Router
+- Axios (JWT interceptor)
+- Mantine (UI + Notifications)
+- Lucide icons
+- Light/Dark theme via CSS variables (`src/styles/theme.css`)
 
-## React Compiler
+## Running locally
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+From repo root:
 
-## Expanding the ESLint configuration
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### API URL
+
+Default API base URL is:
+
+- `http://localhost:5212/api`
+
+To override, create `frontend/.env`:
+
+```bash
+VITE_API_URL=http://localhost:5212/api
+```
+
+## Useful scripts
+
+- `npm run dev` — start dev server
+- `npm run build` — production build
+- `npm run preview` — preview build
+- `npm run lint` — run ESLint
+
+## Structure
+
+- `src/pages/` — route pages (Login/Register/Dashboard/Circle/Settings)
+- `src/components/`
+  - `Navbar.jsx` — profile dropdown (Settings + Sign out)
+  - `dashboard/` — dashboard panels + cards
+  - `ui/` — small reusable UI components
+- `src/context/` — auth + theme providers
+- `src/hooks/` — `useAuth`, `useHabits`, `useCircles`, `useTheme`
+- `src/api/axios.js` — Axios instance with auth header injection
+- `src/utils/toast.js` — centralized toast helpers (loading → update pattern)
+
+## Notes
+
+- Auth session is stored in `localStorage` (`hc_token`, `hc_user`).
+- If you see stale styles during dev, restart Vite (`Ctrl+C`, then `npm run dev`).

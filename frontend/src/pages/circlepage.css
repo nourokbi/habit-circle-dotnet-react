@@ -219,3 +219,16 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 768px) {
+  .habit-row {
+    flex-direction: column !important;
+    justify-content: flex-start;
+    align-items: stretch;
+  }
+
+  .habit-tags {
+    margin-top: 8px;
+    justify-content: flex-start;
+  }
+}
