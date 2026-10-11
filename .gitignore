@@ -1,0 +1,22 @@
+# .NET build output
+bin/
+obj/
+publish/
+*.rar
+
+# Local settings with secrets
+appsettings.Development.json
+*.user
+
+# Node
+node_modules/
+dist/
+.env
+.env.local
+
+# Editors and OS
+.vs/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
